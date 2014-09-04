@@ -1,0 +1,49 @@
+@import "nm";
+@import url('http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,700');
+
+body {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    background: lightgrey;
+    margin: 0 auto;
+    max-width: 50em;
+    padding: 2em;
+}
+
+h3 {
+    margin: 0;
+}
+
+button {
+    font-weight: normal;
+    background: white;
+    border: 1px solid grey;
+    border-radius: 2px;
+    padding: .25em .5em;
+    margin-bottom: 1em;
+}
+
+.rock--playing {
+    padding: 1em;
+    background: white;
+    border: 1px solid grey;
+    border-radius: 2px;
+    margin-bottom: 1em;
+}
+
+.rock--setlist {
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        margin-bottom: .5em;
+    }
+
+    a {
+        color: darken(red, 20%);
+        text-decoration: none;
+    }
+
+    .is-active a {
+        color: green;
+    }
+}

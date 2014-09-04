@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RockRockRock Demo</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class='rock--wrap'>
+
+    <div class='rock--playing'>
+        <h3 class='rock--songtitle'></h3>
+        <div class='rock--metadata'></div>
+    </div>
+
+    <div class='rock--buttons'>
+        <button class='rock--button rock--play'> Play </button>
+        <button class='rock--button rock--pause'> Pause </button>
+        <button class='rock--button rock--prev'> Prev </button>
+        <button class='rock--button rock--next'> Next </button>
+        <button class='rock--button rock--mute'> Mute </button>
+        <button class='rock--button rock--unmute'> Unmute </button>
+    </div>
+
+    <ul class='rock--setlist'>
+        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+            <a class='rock--songtitle' href='media/01-rock-rock-rock.mp3'>Rock Rock Rock</a>
+        </li>
+
+        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+            <a class='rock--songtitle' href='media/02-nie-mehr.mp3'>Nie mehr</a>
+        </li>
+
+        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+            <a class='rock--songtitle' href='media/02-regen.mp3'>Wo der Regen</a>
+        </li>
+
+        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+            <a class='rock--songtitle' href='media/03-bruderlos.mp3'>Bruderlos</a>
+        </li>
+    </ul>
+</div>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="js/jquery.rockrockrock.js"></script>
+
+<script>
+    $(function(){
+        $('.rock--setlist').rockrockrock({
+            ogg: true
+        });
+    });
+</script>
+</body>
+</html>
