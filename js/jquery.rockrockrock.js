@@ -1,5 +1,13 @@
 /*global console:true */
 
+/*
+ * RockRockRock
+ * https://github.com/robertweiss/rockrockrock
+ *
+ * Copyright (c) 2014 Robert Weiss
+ * Licensed under the MIT license.
+ */
+
 (function ($){
 
 $.fn.rockrockrock = function(options) {
@@ -18,23 +26,66 @@ $.fn.rockrockrock = function(options) {
     document.body.appendChild(player);
     player.appendChild(source);
     if (settings.ogg) {
-        console.log('ogg!');
+        var source2 = document.createElement('source');
+        player.appendChild(source2);
     }
 
     var setlist = this,
+        activeSong = setlist.children(':eq('+settings.current+')'),
+        infobox = $('.'+settings.prefix+'--playing'),
         btnPlay = $('.'+settings.prefix+'--play'),
         btnPause = $('.'+settings.prefix+'--pause'),
         btnNext = $('.'+settings.prefix+'--next'),
         btnPrev = $('.'+settings.prefix+'--prev'),
         btnMute = $('.'+settings.prefix+'--mute'),
         btnUnmute = $('.'+settings.prefix+'--unmute'),
-        infobox = $('.'+settings.prefix+'--playing'),
-        activeSong = setlist.children(':eq('+settings.current+')');
+        log = $('#log');
 
+    var playSong = function() {
+            player.play();
+            $(btnPlay).hide();
+            $(btnPause).show();
+    },
+        pauseSong = function() {
+            player.pause();
+            $(btnPause).hide();
+            $(btnPlay).show();
+    },
+        nextSong = function() {
+            var nextSong = $('.is-active').next();
+            if (!nextSong.length) {
+                nextSong = $('.is-active').siblings().first();
+            }
+            setSong(nextSong);
+        },
+        prevSong = function() {
+            var prevSong = $('.is-active').prev();
+            if (!prevSong.length) {
+                prevSong = $('.is-active').siblings().last();
+            }
+                setSong(prevSong);
+        },
+        muteSong = function() {
+            btnMute.hide();
+            btnUnmute.show();
+            $(player).animate({volume: 0}, settings.fadeTempo, function(){
+                player.muted=true;
+            });
+    },
+        unmuteSong = function() {
+            btnUnmute.hide();
+            btnMute.show();
+            player.muted=false;
+            $(player).animate({volume: 1}, settings.fadeTempo);
+    };
+
+
+// Checkt den aktuellen Status des Players
     var playerStatus = function() {
         if (player.paused) {
             if (player.currentTime === 0) {
                 return 'stopped';
+
             } else {
                 return 'paused';
             }
@@ -43,38 +94,8 @@ $.fn.rockrockrock = function(options) {
         }
     };
 
-    var playSong = function() {
-            player.play();
-            $(btnPlay).hide();
-            $(btnPause).show();
-    };
-
-    var pauseSong = function() {
-            player.pause();
-            $(btnPause).hide();
-            $(btnPlay).show();
-    };
-
-    var muteSong = function() {
-        btnMute.hide();
-        btnUnmute.show();
-        $(player).animate({volume: 0}, settings.fadeTempo, function(){
-            player.muted=true;
-        });
-    };
-
-    var unmuteSong = function() {
-        btnUnmute.hide();
-        btnMute.show();
-        player.muted=false;
-        $(player).animate({volume: 1}, settings.fadeTempo);
-    };
-
-
-    // Checkt Player-Status und pausiert und spielt ab
-    var playPause = function(newSong, oldSong, status) {
-        // Song pausieren, wenn selber Song ausgewählt wird und dieser gerade spielt
-        // ansonsten Song abspielen
+// Togglet Play/Pause, wenn gleicher Song nochmal angeklickt wird
+    var playOrPause = function(newSong, oldSong, status) {
         if ((newSong === oldSong) && (status === 'playing')){
             pauseSong();
         } else {
@@ -82,7 +103,7 @@ $.fn.rockrockrock = function(options) {
         }
     };
 
-    // Liest den ausgewählten Song aus und ändert das Audio-Element und die Info-Daten
+// Liest den ausgewählten Song aus und ändert das Audio-Element und die Info-Daten
     var setSong = function(song) {
         // Daten auslesen
         var title = $(song).find('.'+settings.prefix+'--songtitle').text(),
@@ -96,61 +117,61 @@ $.fn.rockrockrock = function(options) {
         infobox.find('.'+settings.prefix+'--songtitle').text(title);
         infobox.find('.'+settings.prefix+'--metadata').text(metadata);
         $(player).children('source:eq(0)').attr({src: file, type: "audio/mp3"});
+
+        if (settings.ogg) {
+            var fileOgg = file.slice(0, (file.length-3))+'ogg';
+            $(player).children('source:eq(1)').attr({src: fileOgg, type: "audio/ogg"});
+        }
         player.load();
     };
 
-    // Bei Klick auf Liste gewählten Song aktivieren
+
+
+// Bei Klick auf Liste gewählten Song aktivieren
     setlist.on('click', 'li', function(e){
         e.preventDefault();
         var status = playerStatus(),
-            oldSong = $(player).attr('src');
+            oldSong = $(player).children('source').attr('src');
         setSong(this);
-        playPause($(player).attr('src'), oldSong, status);
+        var newSong = $(player).children('source').attr('src');
+        playOrPause(newSong, oldSong, status);
     });
 
-    // Play-Button
+
+
+
+// Play-Button
     btnPlay.on('click', function(){
         playSong();
     });
-
-    // Pause-Button
+// Pause-Button
     btnPause.on('click', function(){
         pauseSong();
     });
-
-    // Next-Button
+// Next-Button
     btnNext.on('click', function(){
-        var nextSong = $('.is-active').next();
-        if (nextSong.length) {
-            setSong(nextSong);
-        } else {
-            setSong($('.is-active').siblings().first());
-        }
+        nextSong();
         playSong();
     });
-
-    // Prev-Button
+// Prev-Button
     btnPrev.on('click', function(){
-        var prevSong = $('.is-active').prev();
-        if (prevSong.length) {
-            setSong(prevSong);
-        } else {
-            setSong($('.is-active').siblings().last());
-        }
+        prevSong();
         playSong();
     });
-
-    //Mute-Button
+//Mute-Button
     btnMute.on('click', function(){
         muteSong();
     });
-
-    //Unmute-Button
+//Unmute-Button
     btnUnmute.on('click', function(){
         unmuteSong();
     });
 
-    // Beim Inititalisieren Song aktivieren, nicht erforderliche Buttons ausblenden
+
+
+
+
+// Beim Inititalisieren Song aktivieren, nicht erforderliche Buttons ausblenden
     player.volume = 1;
     setSong(activeSong);
     $(btnPause).hide();
