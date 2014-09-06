@@ -39,6 +39,8 @@ $.fn.rockrockrock = function(options) {
         btnPrev = $('.'+settings.prefix+'--prev'),
         btnMute = $('.'+settings.prefix+'--mute'),
         btnUnmute = $('.'+settings.prefix+'--unmute'),
+        timeRange = $('.'+settings.prefix+'--timerange'),
+        timePos = $('.'+settings.prefix+'--timeposition'),
         log = $('#log');
 
     var playSong = function() {
@@ -63,7 +65,7 @@ $.fn.rockrockrock = function(options) {
             if (!prevSong.length) {
                 prevSong = $('.is-active').siblings().last();
             }
-                setSong(prevSong);
+            setSong(prevSong);
         },
         muteSong = function() {
             btnMute.hide();
@@ -137,8 +139,41 @@ $.fn.rockrockrock = function(options) {
         playOrPause(newSong, oldSong, status);
     });
 
+// Buffer-Progress updaten
+    $(player).on('seeking', function(){
+        timeRange.addClass('is-seeking');
+    }).on('seeked', function(){
+        timeRange.removeClass('is-seeking');
+    });
 
+// TimePosition updaten
+    $(player).on('timeupdate', function(){
+        var audioPos = player.currentTime / player.duration * 100;
+        timePos.css('width', audioPos+'%');
+    });
 
+// Bei Klick zu TimePosition springen
+    $(timeRange).on('click', function(e){
+        var clickPos = e.pageX - $(this).position().left,
+            width = $(this).width(),
+            relPos = clickPos / width * 100;
+        player.currentTime = relPos / 100 * player.duration;
+        timePos.css('width', relPos+'%');
+    });
+
+// Leertaste für playOrPause zweckentfremden
+    $('body').keydown(function (e) {
+         if (e.keyCode === 32) {
+            playOrPause('', '', playerStatus());
+            e.preventDefault();
+         }
+    });
+
+// Nach Songende automatisch nächsten Song spielen
+    $(player).on('ended', function(){
+        nextSong();
+        playSong();
+    });
 
 // Play-Button
     btnPlay.on('click', function(){
