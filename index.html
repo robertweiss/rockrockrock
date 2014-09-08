@@ -3,62 +3,65 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>RockRockRock Demo</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>rockrockrock Demo</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<div class='rock--wrap'>
-
-    <div class='rock--playing'>
-        <h3 class='rock--songtitle'></h3>
-        <div class='rock--metadata'></div>
-    </div>
-
-    <div class='rock--buttons'>
-        <button class='rock--button rock--play'> Play </button>
-        <button class='rock--button rock--pause'> Pause </button>
-        <button class='rock--button rock--prev'> Prev </button>
-        <button class='rock--button rock--next'> Next </button>
-        <button class='rock--button rock--mute'> Mute </button>
-        <button class='rock--button rock--unmute'> Unmute </button>
-    </div>
-
-    <div class="rock--timerange">
-        <div class="rock--timeposition"></div>
-    </div>
-
-    <ul class='rock--setlist'>
-        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
-            <a class='rock--songtitle' href='media/01-rock-rock-rock.mp3'>Rock Rock Rock</a>
-        </li>
-
-        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
-            <a class='rock--songtitle' href='media/02-nie-mehr.mp3'>Nie mehr</a>
-        </li>
-
-        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
-            <a class='rock--songtitle' href='media/02-regen.mp3'>Wo der Regen</a>
-        </li>
-
-        <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
-            <a class='rock--songtitle' href='media/03-bruderlos.mp3'>Bruderlos</a>
-        </li>
-    </ul>
+<!-- Infobox -->
+<div class='rock--playing'>
+    <h1 class='rock--songtitle'></h1>
+    <div class='rock--metadata'></div>
 </div>
 
-<div id="log"></div>
+<!-- All possible control elements -->
+<button class='rock--button rock--play'> Play </button>
+<button class='rock--button rock--pause'> Pause </button>
 
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="js/jquery.rockrockrock.js"></script>
+<button class='rock--button rock--prev'> Prev </button>
+<button class='rock--button rock--next'> Next </button>
 
+<button class='rock--button rock--mute'> Mute </button>
+<button class='rock--button rock--unmute'> Unmute </button>
+
+<!-- Time-range and -position -->
+<div class="rock--timerange">
+    <div class="rock--timeposition"></div>
+</div>
+
+<!-- Volume-Slider -->
+<input class="rock--volslider" type="range" min="0" max="100"></input>
+
+<!-- Required: HTML-List with Links to MP3-Files -->
+<ul class='rock--setlist'>
+    <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+        <a class='rock--songtitle' href='assets/media/01-rock-rock-rock.mp3'>Rock Rock Rock</a>
+    </li>
+
+    <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+        <a class='rock--songtitle' href='assets/media/02-nie-mehr.mp3'>Nie mehr</a>
+    </li>
+
+    <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+        <a class='rock--songtitle' href='assets/media/02-regen.mp3'>Wo der Regen</a>
+    </li>
+
+    <li class='rock--song' data-metadata='2008 Kitaro Beeh'>
+        <a class='rock--songtitle' href='assets/media/03-bruderlos.mp3'>Bruderlos</a>
+    </li>
+</ul>
+
+<!-- Load jQuery 1.7+ and rockrockrock plugin -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="lib/jquery.rockrockrock.js"></script>
+
+<!-- Call the plugin on document ready -->
 <script>
     $(function(){
-        $('.rock--setlist').rockrockrock({
-            ogg: true
-        });
+        $('.rock--setlist').rockrockrock();
     });
 </script>
+
 </body>
 </html>

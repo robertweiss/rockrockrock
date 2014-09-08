@@ -1,0 +1,113 @@
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+// Resets, general styles
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@import "nm";
+@import url('http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300,700');
+
+body {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    background: lightgrey;
+    margin: 0 auto;
+    max-width: 50em;
+    padding: 2em;
+}
+
+h1 {
+    margin: 0;
+}
+
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+// Infobox
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+.rock--playing {
+    padding: 1em;
+    background: white;
+    border: 1px solid grey;
+    border-radius: 2px;
+    margin-bottom: 1em;
+}
+
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+// Buttons and other control elements
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.rock--button,
+.rock--timerange,
+.rock--volslider {
+    margin-bottom: 1em;
+}
+
+.rock--button {
+    display: inline-block;
+    font-weight: normal;
+    background: white;
+    border: 1px solid grey;
+    border-radius: 2px;
+    padding: .25em .5em;
+    margin-right: .25em;
+}
+
+
+.rock--timerange {
+    max-width: 20em;
+    height: 1.5em;
+    background: darkgrey;
+    border: 1px solid grey;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &.is-seeking {
+        animation: seeking 3s linear infinite both;
+    }
+}
+
+@keyframes seeking {
+    0% {
+       background: darkgrey;
+    }
+    50% {
+       background: darken(darkgrey, 20%);
+    }
+    100% {
+       background: darkgrey;
+    }
+}
+
+.rock--timeposition {
+    width: 0%;
+    height: 100%;
+    background: white;
+    cursor: pointer;
+    transition: width, .1s;
+}
+
+
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+// Setlist
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+.rock--setlist {
+    clear: both;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        margin-bottom: .5em;
+    }
+
+    a {
+        color: darken(darkgrey, 20%);
+        text-decoration: none;
+    }
+
+    .is-active a {
+        color: green;
+    }
+}
