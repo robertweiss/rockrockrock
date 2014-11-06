@@ -1,13 +1,15 @@
 rockrockrock – Audio-Playlist-Player
 ============
 
->v.0.1
+>v.0.2
 
 rockrockrock is a simple jQuery-powered audio-player which converts a list of links to MP3-files into a playlist-enabled HTML-audio-player.
 
 ## Features
 * Supports MP3 and optionally OGG (files need to have the same basename to work)
 * Supports Play/Pause, Next/Prev, Mute/Unmute-Buttons and Time- and Volume-Slider
+* Custom Events for Play/Pause, Next/Prev and Mute/Unmute
+* Callback function on song loaded
 * All control elements are optional
 * All CSS-Class-Names follow the BEM methodology
 
@@ -17,6 +19,7 @@ rockrockrock is a simple jQuery-powered audio-player which converts a list of li
 * ogg: false, // Search for identically named OGG-file and add to sources
 * fadeTempo: 500, // Speed in ms for fading out and in on mute/unmute
 * keyboard: false // Keboard-support for play/pause (spacebar) and prev/next title (left and right)
+* callback: function which gets called after current song is loaded
 
 All possible elements are shown in the index.html with basic CSS-styling. None of the styles are needed for the plugin to work.
 
@@ -25,4 +28,13 @@ All possible elements are shown in the index.html with basic CSS-styling. None o
 * jQuery 2 (1.7+ should work as well, not tested)
 
 ## Browser Support
-Only tested in latest Chrome and Safari on Mac, but should work in [other audio-element-capable browsers.](http://caniuse.com/#feat=audio)
+Successfully tested in:
+* Latest Chrome
+* Latest Firefox
+* Latest Safari
+* IE 9–11
+* Safari for iOS
+* Chrome for iOS
+* Chrome for Android 4.3
+
+Appearently not fully working in Android browser 4.3.
